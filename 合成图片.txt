@@ -2,53 +2,53 @@
 	{
 		dump('begin~~~');
 
-		//ÕâÊÇ±³¾°Í¼Æ¬µÄurl
+		//è¿™æ˜¯èƒŒæ™¯å›¾ç‰‡çš„url
 		$bannerimg = 'static/receipt_img/default.jpg';
-		//ÕâÊÇĞèÒª²åÈëµ½±³¾°Í¼µÄÍ¼Æ¬url
+		//è¿™æ˜¯éœ€è¦æ’å…¥åˆ°èƒŒæ™¯å›¾çš„å›¾ç‰‡url
 		$qrodeimg = 'static/receipt_img/gongzhang.png';
-		// //ÓÃ»§ĞÅÏ¢
+		// //ç”¨æˆ·ä¿¡æ¯
 		// $hb = Db::table('cs_hborders')->where('hb_id', $hb_id)->find();
 		// $user = Db::table('cs_hbusers')->where('user_id', $hb['user_id'])->find();
-		//ÕâÊÇĞèÒª²åÈëµ½±³¾°Í¼µÄÍ¼Æ¬url
+		//è¿™æ˜¯éœ€è¦æ’å…¥åˆ°èƒŒæ™¯å›¾çš„å›¾ç‰‡url
 		// $head_img = $user['head_img'];
-		//ÕâÊÇÒª²åÈëµ½Í¼Æ¬µÄÎÄ×Ö
-		$tip1 = "ĞÕÃû";
-		$tip2 = "ÊÖ»úºÅÂë";
-		$text = "Éí·İÖ¤ºÅÂë";
+		//è¿™æ˜¯è¦æ’å…¥åˆ°å›¾ç‰‡çš„æ–‡å­—
+		$tip1 = "å§“å";
+		$tip2 = "æ‰‹æœºå·ç ";
+		$text = "èº«ä»½è¯å·ç ";
 		if ($bannerimg) {
-			//Éú³ÉÖĞ¼ä´ølogoµÄ¶şÎ¬Âë
-			//ÕâÊÇºÏ³ÉºóµÄÍ¼Æ¬±£´æµÄÂ·¾¶
+			//ç”Ÿæˆä¸­é—´å¸¦logoçš„äºŒç»´ç 
+			//è¿™æ˜¯åˆæˆåçš„å›¾ç‰‡ä¿å­˜çš„è·¯å¾„
 			$upload_dir = "static/receipt_img/";
 			if (is_file($bannerimg)) {
-				//´´½¨»­²¼
+				//åˆ›å»ºç”»å¸ƒ
 				$logo = imagecreatefromstring(file_get_contents($bannerimg));
 				$head_img1 = imagecreatefromstring(file_get_contents($qrodeimg));
 				// $head_img2 = imagecreatefromstring(file_get_contents($head_img));
 
-				//Ğ´ÈëÎÄ×Ö
+				//å†™å…¥æ–‡å­—
 				$msg = imagecolorallocate($logo, 0, 0, 0);
 				$black = imagecolorallocate($logo, 0, 0, 0);
 				$grey = imagecolorallocate($logo, 0, 0, 0);
-				//Ğ´µÄÎÄ×ÖÓÃµ½µÄ×ÖÌå
+				//å†™çš„æ–‡å­—ç”¨åˆ°çš„å­—ä½“
 				$font = 'static/receipt_img/MSYH.TTF';
-				//½«$qrodeimg²åÈëµ½$bannerimgÀï
+				//å°†$qrodeimgæ’å…¥åˆ°$bannerimgé‡Œ
 				imagecopyresampled($logo, $head_img1, 20, 30, 0, 0, 60, 60, imagesx($head_img1), imagesy($head_img1));
-				//½«$head_img²åÈëµ½$bannerimgÀï
+				//å°†$head_imgæ’å…¥åˆ°$bannerimgé‡Œ
 				// imagecopyresampled($logo, $head_img2, 400, 30, 0, 0, 100, 100, imagesx($head_img2), imagesy($head_img2));
 
-				//ÔÚÍ¼Æ¬Àï²åÈëÎÄ×Ö($msg,$black,$grey)
+				//åœ¨å›¾ç‰‡é‡Œæ’å…¥æ–‡å­—($msg,$black,$grey)
 				imagettftext($logo, 16, 0, 80, 40, $msg, $font, $text);
 				imagettftext($logo, 16, 0, 80, 60, $black, $font, $tip1);
 				imagettftext($logo, 16, 0, 80, 80, $grey, $font, $tip2);
 
 
-				//Éú³ÉÍ¼Æ¬
+				//ç”Ÿæˆå›¾ç‰‡
 				$time = time();
 				imagepng($logo, $upload_dir  . $time . '.png');
-				//Éú³ÉÍ¼Æ¬Ãû×Ö
-				$twocode = $upload_dir  . $time  . '.png'; //Èç¹û´æÔÚlogo¾ÍÉú³É´ølogoµÄ
+				//ç”Ÿæˆå›¾ç‰‡åå­—
+				$twocode = $upload_dir  . $time  . '.png'; //å¦‚æœå­˜åœ¨logoå°±ç”Ÿæˆå¸¦logoçš„
 			}
-			return $twocode; //·µ»Ø½á¹ûÍ¼Æ¬url
+			return $twocode; //è¿”å›ç»“æœå›¾ç‰‡url
 		} else {
 			return false;
 		}
