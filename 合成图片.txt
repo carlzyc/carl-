@@ -1,0 +1,58 @@
+	public function receipt()
+	{
+		dump('begin~~~');
+
+		//这是背景图片的url
+		$bannerimg = 'static/receipt_img/default.jpg';
+		//这是需要插入到背景图的图片url
+		$qrodeimg = 'static/receipt_img/gongzhang.png';
+		// //用户信息
+		// $hb = Db::table('cs_hborders')->where('hb_id', $hb_id)->find();
+		// $user = Db::table('cs_hbusers')->where('user_id', $hb['user_id'])->find();
+		//这是需要插入到背景图的图片url
+		// $head_img = $user['head_img'];
+		//这是要插入到图片的文字
+		$tip1 = "姓名";
+		$tip2 = "手机号码";
+		$text = "身份证号码";
+		if ($bannerimg) {
+			//生成中间带logo的二维码
+			//这是合成后的图片保存的路径
+			$upload_dir = "static/receipt_img/";
+			if (is_file($bannerimg)) {
+				//创建画布
+				$logo = imagecreatefromstring(file_get_contents($bannerimg));
+				$head_img1 = imagecreatefromstring(file_get_contents($qrodeimg));
+				// $head_img2 = imagecreatefromstring(file_get_contents($head_img));
+
+				//写入文字
+				$msg = imagecolorallocate($logo, 0, 0, 0);
+				$black = imagecolorallocate($logo, 0, 0, 0);
+				$grey = imagecolorallocate($logo, 0, 0, 0);
+				//写的文字用到的字体
+				$font = 'static/receipt_img/MSYH.TTF';
+				//将$qrodeimg插入到$bannerimg里
+				imagecopyresampled($logo, $head_img1, 20, 30, 0, 0, 60, 60, imagesx($head_img1), imagesy($head_img1));
+				//将$head_img插入到$bannerimg里
+				// imagecopyresampled($logo, $head_img2, 400, 30, 0, 0, 100, 100, imagesx($head_img2), imagesy($head_img2));
+
+				//在图片里插入文字($msg,$black,$grey)
+				imagettftext($logo, 16, 0, 80, 40, $msg, $font, $text);
+				imagettftext($logo, 16, 0, 80, 60, $black, $font, $tip1);
+				imagettftext($logo, 16, 0, 80, 80, $grey, $font, $tip2);
+
+
+				//生成图片
+				$time = time();
+				imagepng($logo, $upload_dir  . $time . '.png');
+				//生成图片名字
+				$twocode = $upload_dir  . $time  . '.png'; //如果存在logo就生成带logo的
+			}
+			return $twocode; //返回结果图片url
+		} else {
+			return false;
+		}
+
+
+		dump('end~~~');
+	}
